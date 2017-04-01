@@ -102,8 +102,7 @@ e.g. to delete `Cache-Control` header, pass the request with query like `?Cache-
 
 ## Set-up Favorite Response Headers w/ Requrst Header
 
-Also, response header setting up can be done by `Set-Response-Header` header 
-with json formatted data, like:
+Also, setting up response header can be done by `Set-Response-Header` request header with json formatted data, like:
 
 * `Set-Response-Header: {"abc":123, "Edge-Control":"no-store"}`
 
