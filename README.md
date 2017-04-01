@@ -59,24 +59,54 @@ You can set-up favorite respinse headers using query string on a request.
 Formt is like `?Your-Header=your-value&Cache-Control=no-store`, then you get
 objects with response header including:
 
-* Your-Header: your-value
-* Cache-Control: no-store
+* `Your-Header: your-value`
+* `Cache-Control: no-store`
 
 If you want to delete specific response header, pass the query without any value.
 e.g. to delete `Cache-Control` header, pass the request with query like `?Cache-Control=`.
 
+### Examples
+
+* http://to.dresp.server.com/YourPath/example.jpg?Cache-Control=no-cache&Vary=User-Agent
+* http://to.dresp.server.com/YourPath/example.jpg?Edge-Control=no-store
+
 
 ## Set-up Favorite Response Headers w/ Requrst Header
 
-Ypu 
+Also, response header setting up can be done by `Set-Response-Header` header 
+with json formatted data, like:
+
+* `Set-Response-Header: {"abc":123, "Edge-Control":"no-store"}`
 
 
 ## Checking request / response headers at this server catch
 
-Stupid Responder (Rresp) returns the response
+Dresp returns debuging info as a json data in response header as follows:
 
+* `Request-Headers`
+* `Request-Cookies`
+* `Response-Headers`
 
 
 ## Getting Intentional 4xx/5xx response 
+
+You get intentional 4xx/5xx response by accessing 
+
+* http://to.dresp.server.com/hogepo/403.html
+* http://to.dresp.server.com/hogepo/503.html
+
+Dresp returns the any 4xx/5xx response status you need.
+
+# Directory
+
+Representive paths:
+
+* http://to.dresp.server.com/ : Top page (including help)
+* http://to.dresp.server.com/index.html : Top page (including help)
+
+* http://to.dresp.server.com/hogepo/example.jpg : jpeg object page
+* http://to.dresp.server.com/hogepo/example.html : html object page
+
+* http://to.dresp.server.com/hogepo/403.html : Intentional 403 error page
 
 
