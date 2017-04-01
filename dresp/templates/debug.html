@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> {{ pd.title }}</title>
+  </head>
+  <body>
+
+    <h1>{{ pd.title }}</h1>
+    {% for item in pd.body %}
+    <p>{{ item }}</p>
+    {% endfor %}
+  </body>
+</html>
