@@ -135,6 +135,7 @@ Dresp returns debuging info as a json data in response header as follows:
 * `Request-Headers`
 * `Request-Cookies`
 * `Response-Headers`
+* `Connection-IP`
 
 ### Example:
 
