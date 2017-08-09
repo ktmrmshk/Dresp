@@ -125,6 +125,7 @@ def stupid_content(userpath, content):
     ret.headers['Request-Headers']=req_hdr
     ret.headers['Response-Headers']=res_hdr
     ret.headers['Request-Cookies']=req_cookie
+    ret.headers['Connection-IP']=request.remote_addr
 
     return ret
 
