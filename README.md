@@ -216,7 +216,7 @@ Dresp provides the demo web site with specific path '/site/shop/':
 
 ![Screenshot](docs/screen1.png)
 
-## Arbitary size images
+## Arbitrary size images
 
 You can get any size of JPG/PNG/GIF. To get 640x480 px images, 
 
