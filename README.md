@@ -208,6 +208,23 @@ HTTP/1.0 302 TEMPORARY REDIRECT
 Location: http://www.abc.com
 ```
 
+## Demo Web Site
+
+Dresp provides the demo web site with specific path '/site/shop/':
+
+* http://to.dresp.server.com/site/shop/
+
+
+## Arbitary size images
+
+You can get any size of JPG/PNG/GIF. To get 640x480 px images, 
+
+* http://to.dresp.server.com/foobar/640x480.jpg
+* http://to.dresp.server.com/abc123/640x480.png
+* http://to.dresp.server.com/anystr/640x480.gif
+
+
+
 # Directory
 
 Representive paths:

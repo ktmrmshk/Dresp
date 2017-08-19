@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       && git clone https://github.com/ktmrmshk/kita_snippet.git \
       && pip3 install setuptools \
       && pip3 install flask \
+      && pip3 install Pillow \
       && git clone https://github.com/ktmrmshk/Dresp.git  \
       && cp /Dresp/dresp/drespstart.sh / \
       && chmod +x /drespstart.sh
