@@ -151,6 +151,10 @@ def stupid_respond(userpath, content, ret):
     ret.headers['Connection-IP']=request.remote_addr
     return ret
 
+@app.route('/', methods=['POST'])
+def poster():
+  return '----> ok <------'
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
