@@ -56,7 +56,7 @@ def stupid_site_shop(path=''):
     ret_body = send_from_directory('static/site/shop/', rpath)
     return stupid_respond('', '/site/shop/', ret_body)
   
-@app.route('/<userpath>/<content>')
+@app.route('/<userpath>/<content>', methods=['GET', 'HEAD', 'POST', 'PUT', 'DELETE'])
 def stupid_content(userpath, content):
 
     m=re.search('^(\d+)x(\d+)\.(jpg|png|gif)$', content)
@@ -151,9 +151,10 @@ def stupid_respond(userpath, content, ret):
     ret.headers['Connection-IP']=request.remote_addr
     return ret
 
-@app.route('/', methods=['POST'])
-def poster():
-  return '----> ok <------'
+
+#@app.route('/<userpath>/<content>', methods=['POST'])
+#def poster2(userpath, content):
+#  return '----> post <------'
 
 
 if __name__ == '__main__':
