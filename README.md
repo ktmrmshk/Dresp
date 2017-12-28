@@ -3,6 +3,7 @@ A web server serving stupid responses
 
 Github: [https://github.com/ktmrmshk/Dresp](https://github.com/ktmrmshk/Dresp)
 
+Dresp supports methods HEAD, GET, POST, DELETE and DELETE.
 
 ```
 Your Browser                           Stupid Responder
