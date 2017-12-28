@@ -61,6 +61,9 @@ def stupid_content(userpath, content):
 
     m=re.search('^(\d+)x(\d+)\.(jpg|png|gif)$', content)
     if m is None:
+        if re.search(r'^([45]\d{2})\..+$', content):
+            return stupid_respond(userpath, content, None)
+        
         ret_body = send_from_directory('static/', content)
         return stupid_respond(userpath, content, ret_body)
     try:
@@ -74,6 +77,8 @@ def stupid_content(userpath, content):
     if w < 1 or w < 1:
         return 'width and heigh must be [1-4096]', 404
 
+
+
     if not os.path.exists( os.path.join(IMG_TMP_DIR, content)):
         print('new img generated: {}', os.path.join(IMG_TMP_DIR, content))
         imgen((w,h), ext, IMG_TMP_DIR)
@@ -82,7 +87,6 @@ def stupid_content(userpath, content):
 
 
 def stupid_respond(userpath, content, ret):
-
     ### 4xx/5xx response
     prefix = re.search(r'^([45]\d{2})\..+$', content)
     if prefix is not None:
