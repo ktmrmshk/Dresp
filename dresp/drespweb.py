@@ -93,12 +93,12 @@ def stupid_respond(userpath, content, ret):
         return makeIntentErrRes( int(prefix.group(1)) )
     
     if 'Set-Status-Code' in request.args.keys():
-        query_val = re.search(r'^([45]..)$', request.args['Set-Status-Code'])
+        query_val = re.search(r'^([456789]..)$', request.args['Set-Status-Code'])
         if query_val is not None:
             return makeIntentErrRes( int(query_val.group(1)) )
 
     if 'Set-Status-Code' in request.headers:
-        header_val = re.search(r'^([45]..)$', request.headers['Set-Status-Code'])
+        header_val = re.search(r'^([456789]..)$', request.headers['Set-Status-Code'])
         if header_val is not None:
             return makeIntentErrRes( int(header_val.group(1)) )
 
