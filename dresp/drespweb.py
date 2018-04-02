@@ -141,7 +141,13 @@ def stupid_respond(userpath, content, ret):
         try:
             hdr = json.loads( request.headers['Set-Response-Header'] )
             for k,v in hdr.items():
-                if v == '':
+                if k == 'Set-Cookie':
+                    c=v.split('=')
+                    ckey=c[0]
+                    cval=c[1]
+                    print(c)
+                    ret.set_cookie(ckey, value=cval)
+                elif v == '':
                     del ret.headers[k]
                 else:
                     ret.headers[k]=v
