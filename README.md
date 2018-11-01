@@ -84,6 +84,15 @@ Here are examples of the path to each content:
 * http://to.dresp.server.com/XXXXXX/example.png
 * http://to.dresp.server.com/123456/example.css
 * http://to.dresp.server.com/hogepo/example.mp4
+* http://to.dresp.server.com/FooBar/example.json
+
+
+* http://to.dresp.server.com/FooBar/example.json?Cache-Control=no-store&Set-Status-Code=201
+* http://to.dresp.server.com/FooBar/echo.html
+* http://to.dresp.server.com/FooBar/echo.jpg
+* http://to.dresp.server.com/FooBar/200x600.jpg
+
+* http://to.dresp.server.com/site/shop/
 
 ## Set-up Favorite Response Headers w/ Query Strings
 
@@ -224,6 +233,28 @@ You can get any size of JPG/PNG/GIF. To get 640x480 px images,
 * http://to.dresp.server.com/foobar/640x480.jpg
 * http://to.dresp.server.com/abc123/640x480.png
 * http://to.dresp.server.com/anystr/640x480.gif
+
+
+
+## Echo mode
+
+Echo mode path returns content that includes request url, header, client ip, and date.
+This mode supports .txt, .html, .js, .xml, .css, .jpg, .png, and .gif.
+
+
+
+* http://to.dresp.server.com/foobar/echo.txt
+* http://to.dresp.server.com/foobar/echo.html
+* http://to.dresp.server.com/foobar/echo.json
+* http://to.dresp.server.com/foobar/echo.css
+* http://to.dresp.server.com/foobar/echo.xml
+* http://to.dresp.server.com/foobar/echo.jpg
+* http://to.dresp.server.com/foobar/echo.png
+* http://to.dresp.server.com/foobar/echo.gif
+
+![Screenshot](docs/150.png)
+
+
 
 ![Screenshot](docs/640x480.png)
 
