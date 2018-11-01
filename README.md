@@ -235,6 +235,7 @@ You can get any size of JPG/PNG/GIF. To get 640x480 px images,
 * http://to.dresp.server.com/anystr/640x480.gif
 
 
+![Screenshot](docs/640x480.png)
 
 ## Echo mode
 
@@ -256,7 +257,6 @@ This mode supports .txt, .html, .js, .xml, .css, .jpg, .png, and .gif.
 
 
 
-![Screenshot](docs/640x480.png)
 
 # Directory
 
