@@ -1,6 +1,6 @@
 from flask import *
-import json, os, re
-from imgen import imgen
+import json, os, re, random
+from imgen import imgen, imgen_echo
 from datetime import datetime
 app = Flask(__name__) 
 
@@ -70,6 +70,10 @@ def stupid_routing(anystr, subpath):
     elif re.search(r'^([45]\d{2})\..+$', subpath):
         return serve_intentional_error(subpath)
     
+    elif re.search(r'echo\.(txt|html|json|js|css|xml|jpg|png|gif)$', subpath):
+        return serve_echo_content(subpath)
+
+    # other than that
     return serve_example(subpath)
     
 
@@ -107,9 +111,41 @@ def serve_intentional_error(subpath):
         response_obj = makeIntentErrRes( int(prefix.group(1)) )
         return stupid_respond_filter(response_obj)
 
-def serve_mirror_content(subpath):
-    pass
+def serve_echo_content(subpath):
+    response_dict = dict()
+    
+    response_dict['request_headers'] = DictHeaders(request.headers) 
+    response_dict['connecting-ip'] = request.remote_addr
+    response_dict['url'] = '{} {}'.format(request.method, request.url)
+    response_dict['date'] = '{}'.format(datetime.now())
+    
+    prefix, ext = os.path.splitext(subpath)
+    response_obj=Response()
+    if ext in ('.txt', '.html', '.json', '.js', '.css', '.xml'): 
+        response_obj = make_response( json.dumps(response_dict, indent=2) )
+        if subpath.endswith('txt'):
+            response_obj.mimetype = 'text/plain'
+        elif subpath.endswith('html'):
+            response_obj.mimetype = 'text/html'
+        elif subpath.endswith('json'):
+            response_obj.mimetype = 'application/json'
+        elif subpath.endswith('js'):
+            response_obj.mimetype = 'application/javascript'
+        elif subpath.endswith('xml'):
+            response_obj.mimetype = 'application/xml'
+        elif subpath.endswith('css'):
+            response_obj.mimetype = 'text/css'
+        else:
+            response_obj.mimetype = 'text/plain'
 
+    elif ext in ('.jpg','.png', '.gif'):
+        rnd=random.randint(0,1000)
+        imgen_echo(json.dumps(response_dict, indent=2), fmt=ext[1:], outdir=IMG_TMP_DIR, fileprefix=str(rnd))
+        response_obj = send_from_directory(IMG_TMP_DIR, '{}{}'.format(rnd, ext))
+
+
+
+    return stupid_respond_filter(response_obj)
 
 def serve_example(subpath):
     ret_body = send_from_directory('static/', subpath)

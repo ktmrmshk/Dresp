@@ -108,7 +108,31 @@ class TestDresp(unittest.TestCase):
             r=requests.get( '{}/site/{}'.format(self.url, f))
             self.assertEqual( r.status_code, 200 )
             self.assertTrue( 'image/' in r.headers['Content-Type'] )
-        
+    
+    def test_echo_img(self):
+        files=('echo.jpg', 'echo.png', 'echo.gif')
+        for f in files:
+            r=requests.get( '{}/foobar/{}'.format(self.url, f))
+            self.assertEqual( r.status_code, 200 )
+            self.assertTrue( 'image/' in r.headers['Content-Type'] )
+
+    def test_echo_text(self):
+        files=('echo.txt', 'echo.html', 'echo.css')
+        for f in files:
+            r=requests.get( '{}/foobar/{}'.format(self.url, f))
+            self.assertEqual( r.status_code, 200 )
+            self.assertTrue( 'text/' in r.headers['Content-Type'] )
+
+    def test_echo_text(self):
+        files=('echo.js', 'echo.json', 'echo.xml')
+        for f in files:
+            r=requests.get( '{}/foobar/{}'.format(self.url, f))
+            self.assertEqual( r.status_code, 200 )
+            self.assertTrue( 'application/' in r.headers['Content-Type'] )
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
