@@ -12,7 +12,8 @@ def imgen_echo(txt, fmt='jpg', outdir='./', fileprefix='tmp123'):
     outfile='{}.{}'.format(fileprefix, fmt)
 
     #load font
-    font = ImageFont.truetype('static/CourierNew.ttf', 18)
+    fontpath='{}/static/CourierNew.ttf'.format(os.path.dirname(os.path.abspath(__file__)))
+    font = ImageFont.truetype(fontpath, 18)
     
     img = Image.new('RGB', (3200,1600), (210,210,210))
     d=ImageDraw.Draw(img)
