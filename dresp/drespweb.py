@@ -62,6 +62,13 @@ def stupid_site_shop(path=''):
   
 @app.route('/<anystr>/<subpath>', methods=['GET', 'HEAD', 'POST', 'PUT', 'DELETE'])
 def stupid_routing(anystr, subpath):
+    
+    if request.method == 'POST' or request.method == 'PUT':
+        app.logger.debug('content-type: {}'.format(request.content_type))
+        app.logger.debug('content-length: {}'.format(request.content_length))
+        app.logger.debug('data: {}'.format(request.data))
+        app.logger.debug('files: {}'.format(request.files))
+
 
     m=re.search('^(\d+)x(\d+)\.(jpg|png|gif)$', subpath)
     if m is not None:
