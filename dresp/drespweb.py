@@ -64,6 +64,7 @@ def stupid_site_shop(path=''):
 def stupid_routing(anystr, subpath):
     
     if request.method == 'POST' or request.method == 'PUT':
+        app.logger.debug('url: {} {}'.format(request.method, request.url))
         app.logger.debug('content-type: {}'.format(request.content_type))
         app.logger.debug('content-length: {}'.format(request.content_length))
         app.logger.debug('data: {}'.format(request.data))
