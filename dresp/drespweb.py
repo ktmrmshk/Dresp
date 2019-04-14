@@ -68,6 +68,7 @@ def stupid_routing(anystr, subpath):
         app.logger.debug('content-type: {}'.format(request.content_type))
         app.logger.debug('content-length: {}'.format(request.content_length))
         app.logger.debug('data: {}'.format(request.data))
+        app.logger.debug('form: {}'.format(request.form))
         app.logger.debug('files: {}'.format(request.files))
 
 
