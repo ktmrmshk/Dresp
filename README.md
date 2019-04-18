@@ -37,7 +37,7 @@ Your Browser                           Stupid Responder
 Open termial on a machine docker's installed, and
 
 ```
-# docker run -d -p 8080:5000 ktmrmshk/dresp bash /drespstart.sh
+# docker run -d -p 8080:5000 ktmrmshk/dresp 
 ```
 
 Then, open your browser and access to this server like `http://to.this.server.com:8080/`.
@@ -51,7 +51,7 @@ From this git repository,
 # git clone https://github.com/ktmrmshk/Dresp.git
 # cd Dresp
 # docker build -t dresp .
-# docker run -d -p 8080:5000 dresp bash /drespstart.sh   
+# docker run -d -p 8080:5000 dresp  
 ```
 
 
