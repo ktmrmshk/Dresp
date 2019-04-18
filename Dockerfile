@@ -1,23 +1,14 @@
-#From ktmrmshk/py3:latest
-#RUN pip3 install setuptools \
-#      && pip3 install flask \
-#      && git clone https://github.com/ktmrmshk/Dresp.git  \
-#      && cp /Dresp/dresp/drespstart.sh / \
-#      && chmod +x /drespstart.sh
-
-FROM python:3.6
-RUN apt update && apt install -y --no-install-recommends git \
-#      python3 python3-pip \
-#      curl git \
-      && apt clean \    
-      && rm -rf /var/lib/apt/lists/* \
-      && git clone https://github.com/ktmrmshk/kita_snippet.git \
-      && pip3 install setuptools flask Pillow uwsgi \
-      && git clone https://github.com/ktmrmshk/Dresp.git  
-#      && cp /Dresp/dresp/drespstart.sh / \
-#      && chmod +x /drespstart.sh
+FROM python:3.6-slim
+COPY requirements.txt .
+RUN  apt update && apt install -y git \
+     && apt clean && rm -rf /var/lib/apt/lists/* \
+     && pip3 install -r requirements.txt \
+     && rm -rf /root/.cache \
+     && git clone https://github.com/ktmrmshk/Dresp.git 
 
 ENV PYTHONPATH /Dresp/dresp
 EXPOSE 5000
 
-CMD ["uwsgi", "--http", ":5000", "--wsgi-file", "/Dresp/dresp/drespweb.py", "--callable", "app"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000","drespweb:app"]
+
+
