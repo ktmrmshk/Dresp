@@ -70,7 +70,9 @@ def stupid_routing(anystr, subpath):
         app.logger.debug('data: {}'.format(request.data))
         app.logger.debug('form: {}'.format(request.form))
         app.logger.debug('files: {}'.format(request.files))
-
+        if 'data' in request.files:
+            file = request.files['data']
+            file.save('/tmp/tmp.dat')
 
     m=re.search('^(\d+)x(\d+)\.(jpg|png|gif)$', subpath)
     if m is not None:
