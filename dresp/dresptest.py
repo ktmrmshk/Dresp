@@ -131,6 +131,23 @@ class TestDresp(unittest.TestCase):
             self.assertTrue( 'application/' in r.headers['Content-Type'] )
 
 
+    def test_redirect_loop0(self):
+        r=requests.get( '{}/foobar/redirect/302/0?foo=bar&name=987'.format(self.url), allow_redirects=False )
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue( r.headers['Location'] == '{}/?foo=bar&name=987'.format(self.url))
+        
+    def test_redirect_loop1(self):
+        r=requests.get( '{}/foobar/redirect/301/1?foo=bar&name=987'.format(self.url), allow_redirects=False )
+        self.assertEqual(r.status_code, 301)
+        self.assertTrue( r.headers['Location'] == '{}/foobar/redirect/301/0?foo=bar&name=987'.format(self.url))
+        
+    def test_redirect_loop2(self):
+        r=requests.get( '{}/foobar/redirect/307/1'.format(self.url), allow_redirects=False )
+        
+        self.assertEqual(r.status_code, 307)
+        self.assertTrue( r.headers['Location'] == '{}/foobar/redirect/307/0'.format(self.url))
+
+
 
 
 

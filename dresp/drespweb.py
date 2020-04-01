@@ -86,7 +86,22 @@ def stupid_routing(anystr, subpath):
 
     # other than that
     return serve_example(subpath)
+ 
+
+@app.route('/<anystr>/redirect/<int:redirect_code>/<int:depth>', methods=['GET', 'HEAD', 'POST', 'PUT', 'DELETE'])
+def redirect_loop(anystr, redirect_code, depth):
+    query = request.query_string.decode("utf-8")
+    if len(query) != 0:
+        query = '?'+ query
     
+    next_depth=None
+    if depth < 1:
+        next_path='/' + query
+    else:
+        next_path='/{}/redirect/{}/{}{}'.format(anystr, redirect_code, depth-1, query)
+    
+    return stupid_respond_filter( redirect(next_path, redirect_code) )
+
 
 #interface
 def serve_content(subpath):

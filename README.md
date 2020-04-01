@@ -218,6 +218,23 @@ HTTP/1.0 302 TEMPORARY REDIRECT
 Location: http://www.abc.com
 ```
 
+## Redirect Chian
+
+To test direct chain, dresp redirects `/foobar/redirect/{30X}/{n}` to `/foobar/redirect/{30X}/{n-1}`.
+For example,
+
+```
+$ curl -I http://dresp.server.com/foo123/redirect/302/10
+
+302 HTTP/1.0
+Location: http://dresp.server.com/foo123/redirect/302/9
+```
+
+If request comes with query string, it will be redirected with query string.
+And, dresp redirects all these request of `{n} < 1` to top path '/'.
+
+
+
 ## Demo Web Site
 
 Dresp provides the demo web site with specific path '/site/shop/':
