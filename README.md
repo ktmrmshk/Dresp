@@ -218,7 +218,7 @@ HTTP/1.0 302 TEMPORARY REDIRECT
 Location: http://www.abc.com
 ```
 
-## Redirect Chian
+## Redirect Chain
 
 To test direct chain, dresp redirects `/foobar/redirect/{30X}/{n}` to `/foobar/redirect/{30X}/{n-1}`.
 For example,
