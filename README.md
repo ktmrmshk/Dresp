@@ -239,6 +239,19 @@ If request comes with query string, it will be redirected with query string.
 And, dresp redirects all these request of `{n} < 1` to top path '/'.
 
 
+## Response Delay
+
+Dresp serves content with response delay time. This delay time can be specified by `Set-Response-Delay` query or request header. To add 2.5 seconds delay in response, 
+
+```
+## by query string
+$ curl 'http://dresp.server.com/foo123/example.html?Set-Response-Delay=2.5'
+
+## by request header
+$ curl 'http://dresp.server.com/foo123/example.html' -H 'Set-Response-Delay: 2.5'
+```
+
+
 
 ## Demo Web Site
 

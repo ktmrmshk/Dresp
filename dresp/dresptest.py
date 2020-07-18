@@ -147,7 +147,14 @@ class TestDresp(unittest.TestCase):
         self.assertEqual(r.status_code, 307)
         self.assertTrue( r.headers['Location'] == '{}/foobar/redirect/307/0'.format(self.url))
 
+    def test_response_delay_with_query(self):
+        r=requests.get( '{}/foobar/example.svg?Set-Response-Delay=1'.format(self.url), allow_redirects=False )
+        self.assertEqual(r.status_code, 200)
 
+    def test_response_delay_with_header(self):
+        hdr={'Set-Response-Delay': '2', 'Set-Status-Code': '404'}
+        r=requests.get( '{}/foobar/example.svg'.format(self.url), headers=hdr, allow_redirects=False )
+        self.assertEqual(r.status_code, 404)
 
 
 

@@ -2,11 +2,16 @@ from flask import *
 import json, os, re, random
 from imgen import imgen, imgen_echo
 from datetime import datetime
+import time
+
 app = Flask(__name__) 
 
 SERVE_CONTENT_TYPE = ['html', 'txt', 'pdf', 'js', 'png', 'css', 'jpg', 'mp4']
 SERVE_CONTENT_PREFIX = 'example'
 IMG_TMP_DIR='/tmp'
+
+# in second
+MAX_DELAY=30
 
 def DictHeaders(headers):
     ret = dict()
@@ -180,6 +185,23 @@ def serve_example(subpath):
 
 
 def stupid_respond_filter(response_obj):
+    
+    # delay response
+    if 'Set-Response-Delay' in request.headers:
+        try: 
+            delay = min( float(request.headers['Set-Response-Delay']), MAX_DELAY)
+            time.sleep(delay)
+        except:
+            pass
+
+    elif 'Set-Response-Delay' in request.args.keys():
+        try: 
+            delay = min( float(request.args['Set-Response-Delay']), MAX_DELAY)
+            time.sleep(delay)
+        except:
+            pass    
+
+
     if 'Set-Status-Code' in request.args.keys():
         query_val = re.search(r'^([456789]\d{2})$', request.args['Set-Status-Code'])
         if query_val is not None:
