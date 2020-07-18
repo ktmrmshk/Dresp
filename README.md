@@ -67,7 +67,7 @@ work in progress....
 Stupid Responder (Rresp) serves following content:
 
 * file_prefix: example
-* file_type: html, txt, pdf, js, png, css, jpg, mp4
+* file_type: html, txt, pdf, js, png, css, jpg, mp4, webp, webm, ttf, woff, woff2,svg
 
 For instance, you can get jpeg file by "http://to.this.server.com/YourPath/example.jpg".
 
@@ -85,7 +85,12 @@ Here are examples of the path to each content:
 * http://to.dresp.server.com/123456/example.css
 * http://to.dresp.server.com/hogepo/example.mp4
 * http://to.dresp.server.com/FooBar/example.json
-
+* http://to.dresp.server.com/FooBar/example.webp
+* http://to.dresp.server.com/FooBar/example.webm
+* http://to.dresp.server.com/FooBar/example.svg
+* http://to.dresp.server.com/FooBar/example.woff
+* http://to.dresp.server.com/FooBar/example.woff2
+* http://to.dresp.server.com/FooBar/example.ttf
 
 * http://to.dresp.server.com/FooBar/example.json?Cache-Control=no-store&Set-Status-Code=201
 * http://to.dresp.server.com/FooBar/echo.html
