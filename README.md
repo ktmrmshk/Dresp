@@ -174,7 +174,7 @@ Server: Werkzeug/0.16.0 Python/3.8.0
 To get `Set-Cookie: sessionId=abc123`, type
 
 ```
-$ curl -I -XGET -H 'Set-Response-Header: { "Set-Cookie": "sessionId=abc123" }' to.dresp.server.com/foobar/index.html
+$ curl -I -XGET -H 'Set-Response-Header: { "Set-Cookie": "sessionId=abc123" }' http://to.dresp.server.com/foobar/index.html
 
 HTTP/1.0 200 OK
 Content-Length: 597321
@@ -211,7 +211,7 @@ Set-Response-Header: {
 Full request command is
 
 ```
-$ curl -I -XGET -H 'Set-Response-Header: { "Set-Cookie": [{"key":"sessionId", "value":"abc123"}, {"key": "userId", "value": "xyz987"}] }' to.dresp.server.com/foobar/index.html
+$ curl -I -XGET -H 'Set-Response-Header: { "Set-Cookie": [{"key":"sessionId", "value":"abc123"}, {"key": "userId", "value": "xyz987"}] }' http://to.dresp.server.com/foobar/index.html
 
 HTTP/1.0 200 OK
 Content-Length: 597321
@@ -268,7 +268,7 @@ For exmaple,
 Actual request command would be
 
 ```
-$ curl -I -XGET -H 'Set-Response-Header: {"Set-Cookie":[{"key":"sessionId","value":"abc123","expires":"Wed, 09 Jun 2021 10:18:14 GMT","domain":"www.foobar123.com","secure":true,"samesite":"Lax"},{"key":"userId","value":"xyz987","path":"/sub"}]}' to.dresp.server.com/foobar/index.html
+$ curl -I -XGET -H 'Set-Response-Header: {"Set-Cookie":[{"key":"sessionId","value":"abc123","expires":"Wed, 09 Jun 2021 10:18:14 GMT","domain":"www.foobar123.com","secure":true,"samesite":"Lax"},{"key":"userId","value":"xyz987","path":"/sub"}]}' http://to.dresp.server.com/foobar/index.html
 
 HTTP/1.0 200 OK
 Content-Length: 597321
