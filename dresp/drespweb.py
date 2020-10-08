@@ -3,6 +3,7 @@ import json, os, re, random
 from imgen import imgen, imgen_echo
 from datetime import datetime
 import time
+from json.decoder import JSONDecodeError
 
 app = Flask(__name__) 
 
@@ -250,11 +251,23 @@ def stupid_respond_filter(response_obj):
             hdr = json.loads( request.headers['Set-Response-Header'] )
             for k,v in hdr.items():
                 if k == 'Set-Cookie':
-                    c=v.split('=')
-                    ckey=c[0]
-                    cval=c[1]
-                    print(c)
-                    response_obj.set_cookie(ckey, value=cval)
+               
+                    def do_set_cookie(val, response_obj):
+                        '''
+                        val: abc=123
+                        => set_cookie('abc', '123')
+                        '''
+                        c=val.split('=')
+                        ckey=c[0]
+                        cval="=".join(c[1:])
+                        response_obj.set_cookie(ckey, value=cval)
+                
+                    if isinstance(v, list):    
+                        for c in v:
+                            response_obj.set_cookie(**c)
+                    else:
+                        do_set_cookie(v, response_obj)
+
                 elif v == '':
                     del response_obj.headers[k]
                 else:

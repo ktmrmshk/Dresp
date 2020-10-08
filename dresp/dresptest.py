@@ -158,6 +158,37 @@ class TestDresp(unittest.TestCase):
 
 
 
+    def test_single_set_cookie(self):
+        hdr={'Set-Response-Header': '{"Set-Cookie": "sessionToken=abc123"}' }
+        r=requests.get( '{}/foobar/example.html'.format(self.url), headers=hdr, allow_redirects=False )
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue('sessionToken=abc123' in r.headers['Set-Cookie'])
+
+
+    def test_single_set_cookie_query(self):
+        r=requests.get( '{}/foobar/example.html?Set-Cookie=sessionToken=abc123'.format(self.url))
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue('sessionToken=abc123' in r.headers['Set-Cookie'])
+
+    def test_advanced_set_cookie(self):
+        hdr={'Set-Response-Header': '{"Set-Cookie": [{"key":"sessionToken", "value":"abc123"}], "x-ktmr": "123"}' }
+        r=requests.get( '{}/foobar/example.html'.format(self.url), headers=hdr, allow_redirects=False )
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue('sessionToken=abc123' in r.headers['Set-Cookie'])
+
+
+    def test_advanced2_set_cookie(self):
+        hdr={'Set-Response-Header': '{"Set-Cookie": [{"key":"sessionToken", "value":"abc123"}, {"key":"foo", "value": "987"}], "x-ktmr": "123"}' }
+        r=requests.get( '{}/foobar/example.html'.format(self.url), headers=hdr, allow_redirects=False )
+        self.assertEqual(r.status_code, 200)
+
+        #for c in r.cookies.items():
+        #    print(c)
+        #print(r.cookies)
+        self.assertTrue('abc123' in r.cookies['sessionToken'])
+        self.assertTrue('987' in r.cookies['foo'])
+
+
 if __name__ == '__main__':
     unittest.main()
 

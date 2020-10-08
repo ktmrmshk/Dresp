@@ -55,10 +55,6 @@ From this git repository,
 ```
 
 
-## from source
-
-work in progress....
-
 
 # Usage
 
@@ -141,6 +137,157 @@ Accept-Ranges: bytes
 abc: 123
 Edge-Control: no-store
 ```
+
+## Set-Cookie Response
+
+There're 3 ways:
+1. simple mode by query string - single set-cookie
+2. simple mode by request header - single set-cookie
+3. advanced mode by request header - multiple set-cookies with full cookie attribution, i.e max-age, same-site policy and so on. 
+
+### simple mode by query string - single set-cookie
+
+To get `Set-Cookie: sessionId=abc123`, type
+
+```
+$ curl -I -XGET 'http://to.dresp.server.com/YourPath/example.html?Set-Cookie=sessionId=abc123'
+
+HTTP/1.0 200 OK
+Content-Length: 9603
+Content-Type: text/html; charset=utf-8
+Last-Modified: Sat, 18 Jul 2020 12:28:07 GMT
+Cache-Control: public, max-age=43200
+Expires: Thu, 08 Oct 2020 22:39:36 GMT
+ETag: "1595075287.2517724-9603-1268782376"
+Date: Thu, 08 Oct 2020 10:39:36 GMT
+Accept-Ranges: bytes
+set-cookie: sessionId=abc123
+Request-Headers: {"Host": "localhost:5000", "User-Agent": "curl/7.64.1", "Accept": "*/*"}
+Response-Headers: {"Content-Length": "9603", "Content-Type": "text/html; charset=utf-8", "Last-Modified": "Sat, 18 Jul 2020 12:28:07 GMT", "Cache-Control": "public, max-age=43200", "Expires": "Thu, 08 Oct 2020 22:39:36 GMT", "ETag": "\"1595075287.2517724-9603-1268782376\"", "Date": "Thu, 08 Oct 2020 10:39:36 GMT", "Accept-Ranges": "bytes", "set-cookie": "sessionId=abc123"}
+Request-Cookies: {}
+Connection-IP: 127.0.0.1
+Server: Werkzeug/0.16.0 Python/3.8.0
+```
+
+### simple mode by request header
+
+To get `Set-Cookie: sessionId=abc123`, type
+
+```
+$ curl -I -XGET -H 'Set-Response-Header: { "Set-Cookie": "sessionId=abc123" }' localhost:5000/foobar/index.html
+
+HTTP/1.0 200 OK
+Content-Length: 597321
+Content-Type: text/html; charset=utf-8
+Last-Modified: Thu, 08 Oct 2020 08:09:28 GMT
+Cache-Control: public, max-age=43200
+Expires: Thu, 08 Oct 2020 22:42:38 GMT
+ETag: "1602144568.37552-597321-558109780"
+Date: Thu, 08 Oct 2020 10:42:38 GMT
+Accept-Ranges: bytes
+Set-Cookie: sessionId=abc123; Path=/
+Request-Headers: {"Host": "localhost:5000", "User-Agent": "curl/7.64.1", "Accept": "*/*", "Set-Response-Header": "{ \"Set-Cookie\": \"sessionId=abc123\" }"}
+Response-Headers: {"Content-Length": "597321", "Content-Type": "text/html; charset=utf-8", "Last-Modified": "Thu, 08 Oct 2020 08:09:28 GMT", "Cache-Control": "public, max-age=43200", "Expires": "Thu, 08 Oct 2020 22:42:38 GMT", "ETag": "\"1602144568.37552-597321-558109780\"", "Date": "Thu, 08 Oct 2020 10:42:38 GMT", "Accept-Ranges": "bytes", "Set-Cookie": "sessionId=abc123; Path=/"}
+Request-Cookies: {}
+Connection-IP: 127.0.0.1
+Server: Werkzeug/0.16.0 Python/3.8.0
+```
+
+### advanced mode by request header
+
+Multiple Set-Cookies with full cookie attribution are supported.
+
+To get two set-cookies, which are `Set-Cookie: sessionId=abc123` and `userId=xyz987`, send request with header of:
+
+```
+Set-Response-Header: {
+    "Set-Cookie": [
+        { "key": "sessionId", "value": "abc123"},
+        { "key": "userId", "value": "xyz987"}
+    ]
+}
+```
+
+Full request command is
+
+```
+$ curl -I -XGET -H 'Set-Response-Header: { "Set-Cookie": [{"key":"sessionId", "value":"abc123"}, {"key": "userId", "value": "xyz987"}] }' localhost:5000/foobar/index.html
+
+HTTP/1.0 200 OK
+Content-Length: 597321
+Content-Type: text/html; charset=utf-8
+Last-Modified: Thu, 08 Oct 2020 08:09:28 GMT
+Cache-Control: public, max-age=43200
+Expires: Thu, 08 Oct 2020 23:37:12 GMT
+ETag: "1602144568.37552-597321-558109780"
+Date: Thu, 08 Oct 2020 11:37:12 GMT
+Accept-Ranges: bytes
+Set-Cookie: sessionId=abc123; Path=/
+Set-Cookie: userId=xyz987; Path=/
+Request-Headers: {"Host": "localhost:5000", "User-Agent": "curl/7.64.1", "Accept": "*/*", "Set-Response-Header": "{ \"Set-Cookie\": [{\"key\":\"sessionId\", \"value\":\"abc123\"}, {\"key\": \"userId\", \"value\": \"xyz987\"}]}"}
+Response-Headers: {"Content-Length": "597321", "Content-Type": "text/html; charset=utf-8", "Last-Modified": "Thu, 08 Oct 2020 08:09:28 GMT", "Cache-Control": "public, max-age=43200", "Expires": "Thu, 08 Oct 2020 23:37:12 GMT", "ETag": "\"1602144568.37552-597321-558109780\"", "Date": "Thu, 08 Oct 2020 11:37:12 GMT", "Accept-Ranges": "bytes", "Set-Cookie": "userId=xyz987; Path=/"}
+Request-Cookies: {}
+Connection-IP: 127.0.0.1
+Server: Werkzeug/0.16.0 Python/3.8.0
+```
+
+In the advanced mode, [full set-cookie attributes](https://flask.palletsprojects.com/en/1.1.x/api/#flask.Response.set_cookie) are available such as:
+
+* key
+* value
+* max_age
+* expires
+* path 
+* domain
+* secure
+* httponly
+* samesite
+
+For exmaple, 
+
+```
+{
+    "Set-Cookie": [
+        {
+            "key": "sessionId",
+            "value": "abc123",
+            "expires": "Wed, 09 Jun 2021 10:18:14 GMT",
+            "domain": "www.foobar123.com",
+            "secure": true,
+            "samesite": "Lax"
+        },
+        {
+            "key": "userId",
+            "value": "xyz987",
+            "path": "/sub"
+        }
+    ]
+}
+```
+
+Actual request command would be
+
+```
+$ curl -I -XGET -H 'Set-Response-Header: {"Set-Cookie":[{"key":"sessionId","value":"abc123","expires":"Wed, 09 Jun 2021 10:18:14 GMT","domain":"www.foobar123.com","secure":true,"samesite":"Lax"},{"key":"userId","value":"xyz987","path":"/sub"}]}' localhost:5000/foobar/index.html
+
+HTTP/1.0 200 OK
+Content-Length: 597321
+Content-Type: text/html; charset=utf-8
+Last-Modified: Thu, 08 Oct 2020 08:09:28 GMT
+Cache-Control: public, max-age=43200
+Expires: Thu, 08 Oct 2020 23:54:47 GMT
+ETag: "1602144568.37552-597321-558109780"
+Date: Thu, 08 Oct 2020 11:54:47 GMT
+Accept-Ranges: bytes
+Set-Cookie: sessionId=abc123; Domain=www.foobar123.com; Expires=Wed, 09 Jun 2021 10:18:14 GMT; Secure; Path=/; SameSite=Lax
+Set-Cookie: userId=xyz987; Path=/sub
+Request-Headers: {"Host": "localhost:5000", "User-Agent": "curl/7.64.1", "Accept": "*/*", "Set-Response-Header": "{\"Set-Cookie\":[{\"key\":\"sessionId\",\"value\":\"abc123\",\"expires\":\"Wed, 09 Jun 2021 10:18:14 GMT\",\"domain\":\"www.foobar123.com\",\"secure\":true,\"samesite\":\"Lax\"},{\"key\":\"userId\",\"value\":\"xyz987\",\"path\":\"/sub\"}]}"}
+Response-Headers: {"Content-Length": "597321", "Content-Type": "text/html; charset=utf-8", "Last-Modified": "Thu, 08 Oct 2020 08:09:28 GMT", "Cache-Control": "public, max-age=43200", "Expires": "Thu, 08 Oct 2020 23:54:47 GMT", "ETag": "\"1602144568.37552-597321-558109780\"", "Date": "Thu, 08 Oct 2020 11:54:47 GMT", "Accept-Ranges": "bytes", "Set-Cookie": "userId=xyz987; Path=/sub"}
+Request-Cookies: {}
+Connection-IP: 127.0.0.1
+Server: Werkzeug/0.16.0 Python/3.8.0
+```
+
 
 
 ## Checking request / response headers at this server catch
